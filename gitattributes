@@ -1,0 +1,4 @@
+# Keep Unix line endings so scripts run on Linux/WSL even if committed from Windows
+*.sh   text eol=lf
+*.toml text eol=lf
+*.md   text eol=lf

@@ -1,0 +1,77 @@
+# ---- xiong-chiamiov (Oh My Zsh) recreated for Starship ----
+# ┌─[user@host] - [~/path] - [Fri Nov 06, 22:18] - [ main !2] - [󰖂 10.10.14.7] - [took 5s]
+# └─[$]>
+# The extra [git], [vpn], [python] and [took] blocks only appear when they have something to show.
+"$schema" = 'https://starship.rs/config-schema.json'
+add_newline = true
+
+# Line 1 must stay on one line (TOML literal strings have no line continuation).
+format = '''
+[┌─\[](bold blue)$username[@](bold bright-black)$hostname[\]](bold blue) - [\[](bold blue)$directory[\]](bold blue) - [\[](bold blue)$time[\]](bold blue)( - [\[](bold blue)$git_branch$git_status$git_state[\]](bold blue))( - [\[](bold blue)$python[\]](bold blue))( - [\[](bold blue)${custom.vpn}[\]](bold blue))( - [\[](bold blue)$cmd_duration$jobs[\]](bold blue))
+[└─\[](bold blue)$character'''
+
+[username]
+show_always = true
+style_user = "bold green"
+style_root = "bold red"
+format = "[$user]($style)"
+
+[hostname]
+ssh_only = false
+style = "cyan"
+format = "[$hostname]($style)"
+
+[directory]
+style = "bold white"
+truncation_length = 0          # full path, like the original
+truncate_to_repo = false
+read_only = " 󰌾"
+read_only_style = "red"
+format = "[$path]($style)[$read_only]($read_only_style)"
+
+[time]
+disabled = false
+time_format = "%a %b %d, %H:%M"
+style = "yellow"
+format = "[$time]($style)"
+
+[git_branch]
+symbol = " "
+style = "bold purple"
+format = "[$symbol$branch]($style)"
+
+[git_status]
+style = "bold red"
+format = "( [$all_status$ahead_behind]($style))"
+
+[git_state]
+format = " [$state( $progress_current/$progress_total)]($style)"
+
+[python]
+symbol = " "
+style = "yellow"
+format = '[${symbol}${version}( \($virtualenv\))]($style)'
+
+[cmd_duration]
+min_time = 2000
+style = "yellow"
+format = "[took $duration]($style)"
+
+[jobs]
+symbol = " ✦"
+style = "bold blue"
+format = "[$symbol$number]($style)"
+
+# $ is magenta like the original; turns red when the last command failed
+[character]
+success_symbol = '[\$](bold purple)[\]>](bold blue)'
+error_symbol = '[\$](bold red)[\]>](bold blue)'
+
+# VPN (tun0) IP, only when connected
+[custom.vpn]
+when = "ip link show tun0"
+command = "ip -4 -o addr show tun0 | awk '{print $4}' | cut -d/ -f1"
+shell = ["bash", "--noprofile", "--norc"]
+symbol = "󰖂 "
+style = "bold cyan"
+format = "[$symbol$output]($style)"
